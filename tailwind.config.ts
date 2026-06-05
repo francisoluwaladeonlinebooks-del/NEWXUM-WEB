@@ -10,11 +10,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        card: 'hsl(var(--card))',
+        'card-foreground': 'hsl(var(--card-foreground))',
+        popover: 'hsl(var(--popover))',
+        'popover-foreground': 'hsl(var(--popover-foreground))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
@@ -35,20 +39,27 @@ const config: Config = {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+        'nexum-blue': {
+          50: '#eef0fb',
+          100: '#d5d9f5',
+          500: '#1a2faa',
+          600: '#1527a0',
+          700: '#0f1d8f',
+          900: '#080d5c',
+          DEFAULT: '#1a2faa',
         },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+        'nexum-amber': {
+          50: '#fef8ee',
+          100: '#fde8c2',
+          500: '#f5a623',
+          600: '#e8950f',
+          700: '#c47c0a',
+          DEFAULT: '#f5a623',
         },
-        nexum: {
-          navy: '#1B3A6B',
-          blue: '#2563EB',
-          teal: '#0F6E56',
-          coral: '#C2410C',
-        },
+        'nexum-red': '#D32F2F',
+        'nexum-yellow': '#FBC02D',
+        'nexum-green': '#388E3C',
+        'nexum-slate': '#0B0F19',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -56,8 +67,10 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['var(--font-inter)'],
-        mono: ['var(--font-mono)'],
+        heading: ['var(--font-dm-sans)', 'sans-serif'],
+        body: ['var(--font-inter)', 'sans-serif'],
+        mono: ['var(--font-jetbrains-mono)', 'monospace'],
+        sans: ['var(--font-inter)', 'sans-serif'],
       },
     },
   },
