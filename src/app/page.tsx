@@ -8,8 +8,8 @@ import { Shield, AlertTriangle, Search, Bus, Car, ArrowRight, ChevronRight } fro
 
 const ROLE_HOME: Record<Role, string> = {
   worshipper:       '/worshipper/bookings',
-  medical_officer:  '/officer/incidents',
-  security_officer: '/officer/missing-persons',
+  medical_officer:  '/responder',
+  security_officer: '/responder',
   driver:           '/driver/rides',
   admin:            '/admin/dashboard',
   host:             '/host/properties',
@@ -215,9 +215,9 @@ export default async function LandingPage() {
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
               {[
                 { emoji: '🙏', role: 'Worshipper', desc: 'Report emergencies, find missing people, pin your car, and book approved lodging.', cta: 'Register free', href: '/register' },
-                { emoji: '🏥', role: 'Medical Officer', desc: 'Receive urgent dispatch alerts, manage incident queues, and close cases fast.', cta: 'Officer login', href: '/login' },
-                { emoji: '👮', role: 'Security Officer', desc: 'Respond to missing-person alerts, manage perimeter incidents, and coordinate teams.', cta: 'Officer login', href: '/login' },
-                { emoji: '🚌', role: 'Shuttle Driver', desc: 'Accept pickup requests, share real-time location, and follow optimized camp routes.', cta: 'Driver login', href: '/login' },
+                { emoji: '🏥', role: 'Medical Officer', desc: 'Receive urgent dispatch alerts, manage incident queues, and close cases fast.', cta: 'Responder login', href: '/login?group=responder' },
+                { emoji: '👮', role: 'Security Officer', desc: 'Respond to missing-person alerts, manage perimeter incidents, and coordinate teams.', cta: 'Responder login', href: '/login?group=responder' },
+                { emoji: '🚌', role: 'Shuttle Driver', desc: 'Accept pickup requests, share real-time location, and follow optimized camp routes.', cta: 'Driver login', href: '/login?group=driver' },
               ].map(card => (
                 <div key={card.role} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
                   <div className="text-4xl mb-4">{card.emoji}</div>

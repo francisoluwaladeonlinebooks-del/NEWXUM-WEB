@@ -4,8 +4,8 @@ import type { Role } from '@/types';
 
 const ROLE_REDIRECTS: Record<Role, string> = {
   worshipper: '/worshipper/bookings',
-  medical_officer: '/officer/incidents',
-  security_officer: '/officer/missing-persons',
+  medical_officer: '/responder',
+  security_officer: '/responder',
   driver: '/driver/rides',
   admin: '/admin/dashboard',
   host: '/host/properties',
@@ -14,6 +14,7 @@ const ROLE_REDIRECTS: Record<Role, string> = {
 const PROTECTED_PREFIXES: { prefix: string; roles: Role[] }[] = [
   { prefix: '/admin', roles: ['admin'] },
   { prefix: '/officer', roles: ['medical_officer', 'security_officer', 'admin'] },
+  { prefix: '/responder', roles: ['medical_officer', 'security_officer', 'admin'] },
   { prefix: '/driver', roles: ['driver', 'admin'] },
   { prefix: '/worshipper', roles: ['worshipper', 'admin'] },
   { prefix: '/host', roles: ['host', 'admin'] },
@@ -60,6 +61,7 @@ export const config = {
     '/driver/:path*',
     '/worshipper/:path*',
     '/host/:path*',
+    '/responder/:path*',
     '/login',
     '/register',
     '/forgot-password',
