@@ -1,118 +1,116 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import { LoginForm } from '@/components/shared/LoginForm';
-import { Shield } from 'lucide-react';
+import Link from 'next/link';
 
-const GROUP_COPY: Record<string, { heading: string; subheading: string; bullets: string[] }> = {
-  responder: {
-    heading: 'Responder sign in',
-    subheading: 'Medical and security officers receive dispatch alerts, manage active incidents, and coordinate response from one secure portal.',
-    bullets: [
-      'Real-time incident assignments for medical and security teams.',
-      'Missing person alert triage and site coordination.',
-      'Fast, secure access to responder tools and event workflows.',
-    ],
-  },
-  driver: {
-    heading: 'Driver sign in',
-    subheading: 'Access ride requests, keep your location updated, and stay on schedule across the camp network.',
-    bullets: [
-      'Accept shuttle and transport requests quickly.',
-      'Share real-time location and route progress.',
-      'Stay connected with camp operations and dispatch.',
-    ],
-  },
-  admin: {
-    heading: 'Admin sign in',
-    subheading: 'Manage camp operations, bookings, safety alerts, and system-wide dashboards with admin controls.',
-    bullets: [
-      'Overview of active incidents and missing alerts.',
-      'Manage properties, bookings, and user access.',
-      'Maintain safety, transit, and geofence workflows.',
-    ],
-  },
-  worshipper: {
-    heading: 'Worshipper sign in',
-    subheading: 'Book lodging, report incidents, and track camp services all from your worshipper account.',
-    bullets: [
-      'Manage your approved property bookings.',
-      'Report safety incidents or missing persons fast.',
-      'Access camp guidance and support tools.',
-    ],
-  },
-};
-
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: { callbackUrl?: string; error?: string; group?: string };
-}) {
+export default async function LoginPage() {
   const session = await getServerSession(authOptions);
-  if (session) redirect(searchParams.callbackUrl ?? '/');
-
-  const group = Array.isArray(searchParams.group)
-    ? searchParams.group[0]?.toLowerCase()
-    : searchParams.group?.toLowerCase();
-
-  const copy = group && GROUP_COPY[group]
-    ? GROUP_COPY[group]
-    : {
-      heading: 'One login for every camp role.',
-      subheading: 'Sign in once to access worshipper, responder, driver, admin, or host workflows through the same secure Nexum portal.',
-      bullets: [
-        'Worshipper: book accommodation and report incidents.',
-        'Responder: receive alerts and coordinate response.',
-        'Driver: accept rides and share route updates.',
-        'Admin: oversee camp operations and safety.',
-      ],
-    };
-
-  const roleRedirects: Record<string, string> = {
-    responder: '/responder',
-    driver: '/driver/rides',
-    admin: '/admin/dashboard',
-    worshipper: '/worshipper/bookings',
-  };
-
-  const targetRedirect = searchParams.callbackUrl ?? roleRedirects[group ?? ''] ?? '/';
+  if (session) redirect('/');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1B3A6B] to-[#2563EB] flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-5xl">
-        <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-2xl shadow-slate-950/30 backdrop-blur-md sm:p-10 lg:grid-cols-[1.2fr_0.95fr]">
-          <div className="rounded-[2rem] bg-white/10 p-8 text-white ring-1 ring-white/10 lg:p-10">
-            <div className="mb-8 flex items-center gap-3">
-              <Shield className="h-8 w-8 text-blue-100" />
-              <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-blue-100/70">Nexum portal</p>
-                <h1 className="mt-3 text-3xl font-semibold text-white">{copy.heading}</h1>
-              </div>
+    <div className="min-h-screen bg-white">
+      {/* Main Container */}
+      <div className="grid grid-cols-2 min-h-screen">
+        {/* Left Side - Branding */}
+        <div className="bg-gradient-to-br from-[#0047AB] to-[#003580] relative overflow-hidden flex flex-col justify-between p-12">
+          {/* Decorative Elements */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+
+          {/* Content */}
+          <div className="relative z-10">
+            <div className="mb-12">
+              <div className="text-sm font-semibold text-blue-100/70 mb-2">NEXUM CAMP SYSTEM V2.5</div>
+              <h1 className="text-5xl font-bold text-white mb-3">Nexum</h1>
+              <p className="text-blue-100/80 text-base">Safety Intelligence for Redemption City</p>
             </div>
-            <p className="text-base leading-7 text-blue-100/90">{copy.subheading}</p>
-            <div className="mt-10 space-y-4">
-              {copy.bullets.map((line) => (
-                <div key={line} className="flex gap-3 text-sm leading-6 text-blue-100/90">
-                  <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-emerald-300" />
-                  <span>{line}</span>
-                </div>
-              ))}
+
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-3">
+                <div className="w-1 h-1 bg-[#FFA500] rounded-full mt-2"></div>
+                <p className="text-blue-100/90">5M+ Peak worshippers</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-1 h-1 bg-[#FFA500] rounded-full mt-2"></div>
+                <p className="text-blue-100/90">2,500 Hectares covered</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-1 h-1 bg-[#FFA500] rounded-full mt-2"></div>
+                <p className="text-blue-100/90">3s Emergency dispatch</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-1 h-1 bg-[#FFA500] rounded-full mt-2"></div>
+                <p className="text-blue-100/90">24/7 Always active</p>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-[2rem] bg-white p-8 shadow-xl lg:p-10">
-            <div className="text-center mb-8">
-              <p className="text-sm uppercase tracking-[0.3em] text-slate-500">Sign in</p>
-              <h2 className="mt-3 text-3xl font-semibold text-slate-900">Access your Nexum account</h2>
-              <p className="mt-3 text-sm text-slate-500">
-                Use your camp credentials to continue across all personas and secure workflows.
-              </p>
-            </div>
-            <LoginForm
-              callbackUrl={targetRedirect}
-              error={searchParams.error}
-            />
+          {/* Footer Quote */}
+          <div className="relative z-10 border-t border-blue-400/30 pt-6">
+            <p className="text-sm text-blue-100/70">Real-time emergency dispatch, automated escalation, and crowd coordination for the world's largest regular gathering</p>
           </div>
+        </div>
+
+        {/* Right Side - Login Form */}
+        <div className="bg-white flex flex-col justify-center px-12 relative">
+          {/* Decorative Header */}
+          <div className="mb-10">
+            <div className="text-sm font-semibold text-slate-500 mb-1">CHOOSE YOUR PORTAL ACCESS</div>
+            <h2 className="text-3xl font-bold text-slate-900">Sign In</h2>
+            <p className="text-slate-600 mt-2">Select your role to continue</p>
+          </div>
+
+          {/* Role Tabs */}
+          <div className="flex gap-4 mb-8 border-b border-slate-200">
+            <Link
+              href="/login/worshipper"
+              className="px-6 py-3 border-b-2 border-[#0047AB] text-[#0047AB] font-semibold"
+            >
+              Worshipper
+            </Link>
+            <Link
+              href="/login/responder"
+              className="px-6 py-3 border-b-2 border-transparent text-slate-600 font-semibold hover:text-slate-900 transition"
+            >
+              Responder
+            </Link>
+            <Link
+              href="/login/admin"
+              className="px-6 py-3 border-b-2 border-transparent text-slate-600 font-semibold hover:text-slate-900 transition"
+            >
+              HQ Admin
+            </Link>
+          </div>
+
+          {/* Quick Links */}
+          <div className="mb-8">
+            <p className="text-sm text-slate-600 mb-3">Don't have an account?</p>
+            <div className="flex gap-4 text-sm">
+              <Link href="/register/worshipper" className="text-[#0047AB] font-semibold hover:underline">
+                Register
+              </Link>
+              <span className="text-slate-300">•</span>
+              <a href="#" className="text-[#0047AB] font-semibold hover:underline">
+                Forgot password?
+              </a>
+            </div>
+          </div>
+
+          {/* Demo Info */}
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
+            <p className="text-xs font-semibold text-amber-900 mb-2">⚡ DEMO BYPASS PRESETS</p>
+            <div className="space-y-1 text-xs text-amber-800">
+              <p>Pilgrim Comfort (Worshipper)</p>
+              <p>Officer Obenga (Pending Vetting)</p>
+              <p>Dr. Stella Ola (Approved Med)</p>
+              <p>HQ Commandant (Admin 2FA)</p>
+            </div>
+          </div>
+
+          {/* Help Text */}
+          <p className="text-xs text-slate-500 text-center">
+            Secure login powered by Nexum Gateway Session Protocol
+          </p>
         </div>
       </div>
     </div>

@@ -11,8 +11,8 @@ import type { Role } from '@/types';
 
 const ROLE_HOME: Record<Role, string> = {
   worshipper: '/worshipper/bookings',
-  medical_officer: '/officer/incidents',
-  security_officer: '/officer/missing-persons',
+  medical_officer: '/responder',
+  security_officer: '/responder',
   driver: '/driver/rides',
   admin: '/admin/dashboard',
   host:  '/host/properties',
@@ -22,9 +22,11 @@ const ROLE_HOME: Record<Role, string> = {
 export function LoginForm({
   callbackUrl,
   error,
+  role,
 }: {
   callbackUrl?: string;
   error?: string;
+  role?: 'worshipper' | 'responder' | 'admin';
 }) {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -65,7 +67,7 @@ export function LoginForm({
           <div>
             <Label className="mb-1 block">Email</Label>
             <Input type="email" value={email} onChange={e => setEmail(e.target.value)}
-              placeholder="adebayo@example.com" required autoFocus />
+              placeholder="your@email.com" required autoFocus />
           </div>
           <div>
             <div className="flex items-center justify-between mb-1">
@@ -81,23 +83,25 @@ export function LoginForm({
             {loading ? <Spinner className="h-4 w-4" /> : 'Sign In'}
           </Button>
         </form>
-        <p className="text-center text-sm text-muted-foreground mt-4">
-          No account?{' '}
-          <Link href="/register" className="text-primary hover:underline font-medium">Register</Link>
-        </p>
       </CardContent>
     </Card>
   );
 }
 
 // ── Register Form ─────────────────────────────────────────────
-export function RegisterForm() {
+export function RegisterForm({ role = 'worshipper' }: { role?: 'worshipper' | 'responder' | 'admin' }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     fullName: '', email: '', password: '', confirmPassword: '',
     phoneNumber: '', emergencyContactName: '', emergencyContactPhone: '', estateOrZone: '',
   });
+
+  const roleRedirects: Record<string, string> = {
+    worshipper: '/worshipper/bookings',
+    responder: '/responder',
+    admin: '/admin/dashboard',
+  };
 
   function set(field: string) {
     return (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -128,9 +132,9 @@ export function RegisterForm() {
 
     if (result?.ok) {
       toast.success('Account created! Welcome to Nexum.');
-      router.push('/worshipper/bookings');
+      router.push(roleRedirects[role] || '/worshipper/bookings');
     } else {
-      router.push('/login');
+      router.push(`/login/${role}`);
     }
   }
 
@@ -143,12 +147,12 @@ export function RegisterForm() {
             <div className="col-span-2">
               <Label className="mb-1 block">Full Name</Label>
               <Input value={form.fullName} onChange={set('fullName')}
-                placeholder="Adebayo Okafor" required />
+                placeholder="Your Full Name" required />
             </div>
             <div className="col-span-2">
               <Label className="mb-1 block">Email</Label>
               <Input type="email" value={form.email} onChange={set('email')}
-                placeholder="adebayo@example.com" required />
+                placeholder="your@email.com" required />
             </div>
             <div>
               <Label className="mb-1 block">Password</Label>
@@ -163,7 +167,7 @@ export function RegisterForm() {
             <div className="col-span-2">
               <Label className="mb-1 block">Phone Number</Label>
               <Input value={form.phoneNumber} onChange={set('phoneNumber')}
-                placeholder="+2348012345678" />
+                placeholder="+234..." />
             </div>
           </div>
 
@@ -175,18 +179,18 @@ export function RegisterForm() {
               <div>
                 <Label className="mb-1 block">Contact Name</Label>
                 <Input value={form.emergencyContactName} onChange={set('emergencyContactName')}
-                  placeholder="Funke Okafor" />
+                  placeholder="Contact full name" />
               </div>
               <div>
                 <Label className="mb-1 block">Contact Phone</Label>
                 <Input value={form.emergencyContactPhone} onChange={set('emergencyContactPhone')}
-                  placeholder="+2348098765432" />
+                  placeholder="+234..." />
               </div>
             </div>
             <div className="mt-3">
               <Label className="mb-1 block">Estate / Zone (optional)</Label>
               <Input value={form.estateOrZone} onChange={set('estateOrZone')}
-                placeholder="Redemption Estate, Zone A" />
+                placeholder="Your estate or zone" />
             </div>
           </div>
 
@@ -195,8 +199,8 @@ export function RegisterForm() {
           </Button>
         </form>
         <p className="text-center text-sm text-muted-foreground mt-4">
-          Already registered?{' '}
-          <Link href="/login" className="text-primary hover:underline font-medium">Sign in</Link>
+          Already have an account?{' '}
+          <Link href={`/login/${role}`} className="text-primary hover:underline font-medium">Sign in</Link>
         </p>
       </CardContent>
     </Card>
