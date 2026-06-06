@@ -152,7 +152,7 @@ export default function WorshipperLoginPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {isSignUp ? <RegisterForm role="worshipper" /> : <LoginForm role="worshipper" callbackUrl="/worshipper/bookings" />}
+                {isSignUp ? <RegisterForm role="worshipper" /> : <LoginForm role="worshipper" callbackUrl="/worshipper/dashboard" />}
               </motion.div>
             </AnimatePresence>
 
