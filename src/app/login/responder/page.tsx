@@ -153,7 +153,7 @@ export default function ResponderLoginPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {isSignUp ? <RegisterForm role="responder" /> : <LoginForm role="responder" />}
+                {isSignUp ? <RegisterForm role="responder" /> : <LoginForm role="responder" callbackUrl="/responder" />}
               </motion.div>
             </AnimatePresence>
 
