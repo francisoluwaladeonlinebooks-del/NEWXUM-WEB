@@ -10,11 +10,12 @@ import { toast } from 'sonner';
 import type { Role } from '@/types';
 
 const ROLE_HOME: Record<Role, string> = {
-  worshipper: '/worshipper/bookings',
-  medical_officer: '/responder',
-  security_officer: '/responder',
-  driver: '/driver/rides',
-  admin: '/admin/dashboard',
+  worshipper: '/dashboard/worshipper',
+  responder: '/dashboard/medical',
+  medical_officer: '/dashboard/medical',
+  security_officer: '/dashboard/security',
+  driver: '/dashboard/driver',
+  admin: '/dashboard/admin',
   host:  '/host/properties',
 };
 
