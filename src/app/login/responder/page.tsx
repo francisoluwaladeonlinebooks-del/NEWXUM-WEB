@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useSearchParams } from 'react';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LoginForm, RegisterForm } from '@/components/shared/LoginForm';
 
