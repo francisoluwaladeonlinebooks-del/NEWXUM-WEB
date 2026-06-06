@@ -12,6 +12,7 @@ declare module 'next-auth' {
       name: string;
       email: string;
       role: Role;
+      responderType?: 'medical' | 'security' | 'driver';
     };
   }
   interface User {
@@ -19,6 +20,7 @@ declare module 'next-auth' {
     name: string;
     email: string;
     role: Role;
+    responderType?: 'medical' | 'security' | 'driver';
     accessToken: string;
     refreshToken: string;
   }
@@ -30,6 +32,7 @@ declare module 'next-auth/jwt' {
     refreshToken: string;
     role: Role;
     userId: string;
+    responderType?: 'medical' | 'security' | 'driver';
   }
 }
 
@@ -52,11 +55,19 @@ export const authOptions: NextAuthOptions = {
         if (!res.success || !res.data) return null;
 
         const { user, accessToken, refreshToken } = res.data as any;
+        
+        // Determine responderType based on role
+        let responderType: 'medical' | 'security' | 'driver' | undefined;
+        if (user.role === 'medical_officer') responderType = 'medical';
+        else if (user.role === 'security_officer') responderType = 'security';
+        else if (user.role === 'driver') responderType = 'driver';
+        
         return {
           id: user.id,
           name: user.fullName,
           email: user.email,
           role: user.role as Role,
+          responderType,
           accessToken,
           refreshToken,
         };
@@ -70,6 +81,7 @@ export const authOptions: NextAuthOptions = {
         token.refreshToken = user.refreshToken;
         token.role = user.role;
         token.userId = user.id;
+        token.responderType = user.responderType;
       }
       return token;
     },
@@ -78,6 +90,7 @@ export const authOptions: NextAuthOptions = {
       session.refreshToken = token.refreshToken;
       session.user.id = token.userId;
       session.user.role = token.role;
+      session.user.responderType = token.responderType;
       return session;
     },
   },

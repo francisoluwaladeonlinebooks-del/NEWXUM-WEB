@@ -23,10 +23,12 @@ export function LoginForm({
   callbackUrl,
   error,
   role,
+  responderType,
 }: {
   callbackUrl?: string;
   error?: string;
   role?: 'worshipper' | 'responder' | 'admin';
+  responderType?: 'medical' | 'security' | 'driver';
 }) {
   const router = useRouter();
   const [email, setEmail] = useState('');

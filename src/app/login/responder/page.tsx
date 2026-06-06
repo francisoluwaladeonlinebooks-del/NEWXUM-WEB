@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useSearchParams } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LoginForm, RegisterForm } from '@/components/shared/LoginForm';
 
 export default function ResponderLoginPage() {
+  const searchParams = useSearchParams();
+  const responderType = searchParams.get('type') as 'medical' | 'security' | 'driver' | null;
   const [isSignUp, setIsSignUp] = useState(false);
 
   const containerVariants = {
@@ -65,8 +67,18 @@ export default function ResponderLoginPage() {
               className="mb-12"
             >
               <div className="text-sm font-semibold text-blue-100/70 mb-2">NEXUM RESPONDER PORTAL</div>
-              <h1 className="text-5xl font-bold text-white mb-3">Operations Hub</h1>
-              <p className="text-blue-100/80 text-base">Real-time emergency response coordination</p>
+              <h1 className="text-5xl font-bold text-white mb-3">
+                {responderType === 'medical' && 'Emergency Medical'}
+                {responderType === 'security' && 'Security Response'}
+                {responderType === 'driver' && 'Shuttle Operations'}
+                {!responderType && 'Operations Hub'}
+              </h1>
+              <p className="text-blue-100/80 text-base">
+                {responderType === 'medical' && 'Emergency medical dispatch and patient coordination'}
+                {responderType === 'security' && 'Real-time security incident response'}
+                {responderType === 'driver' && 'Shuttle route and transport management'}
+                {!responderType && 'Real-time emergency response coordination'}
+              </p>
             </motion.div>
 
             <motion.div
@@ -153,7 +165,15 @@ export default function ResponderLoginPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {isSignUp ? <RegisterForm role="responder" /> : <LoginForm role="responder" callbackUrl="/responder/standby" />}
+                {isSignUp ? (
+                  <RegisterForm role="responder" />
+                ) : (
+                  <LoginForm 
+                    role="responder" 
+                    callbackUrl={`/dashboard/${responderType || 'responder'}`}
+                    responderType={responderType}
+                  />
+                )}
               </motion.div>
             </AnimatePresence>
 

@@ -152,7 +152,7 @@ export default function AdminLoginPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {isSignUp ? <RegisterForm role="admin" /> : <LoginForm role="admin" callbackUrl="/admin/command-center" />}
+                {isSignUp ? <RegisterForm role="admin" /> : <LoginForm role="admin" callbackUrl="/dashboard/admin" />}
               </motion.div>
             </AnimatePresence>
 
